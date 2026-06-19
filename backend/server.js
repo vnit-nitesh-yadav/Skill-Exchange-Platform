@@ -27,6 +27,7 @@ app.use('/api/search', require('./routes/searchSkills'));
 app.use('/api/connection', require('./routes/connection'));
 app.use('/api/chat', require('./routes/chat'));
 app.use('/api/recommendations', require('./routes/recommendations'));
+app.use('/api/reviews', require('./routes/reviews'));
 
 // Initialize Socket.IO with the server
 initSocket(server);

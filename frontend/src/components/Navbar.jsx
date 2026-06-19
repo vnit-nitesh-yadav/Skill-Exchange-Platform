@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import profileIcon from "../assets/usericon.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function Navbar({ isLoggedIn }) {
+function Navbar({ isLoggedIn, onLogout }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <nav className="navbar-container w-full px-6 py-4 shadow-md relative z-50">
       {/* Inline Theme Styling */}
@@ -92,6 +107,37 @@ function Navbar({ isLoggedIn }) {
           border-color: var(--mint-600);
           transform: scale(1.1);
         }
+
+        .dropdown-menu {
+          position: absolute;
+          right: 20px;
+          top: 72px;
+          background: rgba(7, 16, 37, 0.95);
+          border: 1px solid rgba(255,250,240,0.08);
+          border-radius: 14px;
+          width: 220px;
+          box-shadow: 0 18px 45px rgba(0,0,0,0.25);
+          z-index: 60;
+          overflow: hidden;
+        }
+
+        .dropdown-item {
+          display: block;
+          width: 100%;
+          padding: 12px 16px;
+          color: var(--cream-200);
+          text-align: left;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          font-weight: 500;
+          transition: background 0.15s ease;
+        }
+
+        .dropdown-item:hover {
+          background: rgba(255,250,240,0.08);
+          color: var(--mint-500);
+        }
       `}</style>
 
       <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -128,14 +174,45 @@ function Navbar({ isLoggedIn }) {
                 </div>
               </Link>
 
-              {/* Profile */}
-              <Link to="/profile">
-                <img
-                  src={profileIcon}
-                  alt="Profile"
-                  className="profile-img cursor-pointer"
-                />
+              {/* Profile Templates */}
+              <Link to="/profile-templates" className="nav-btn nav-btn-outline">
+                Templates
               </Link>
+
+              {/* Profile Dropdown */}
+              <div ref={dropdownRef} className="relative">
+                <button
+                  type="button"
+                  className="profile-img"
+                  onClick={() => setMenuOpen((open) => !open)}
+                >
+                  <img
+                    src={profileIcon}
+                    alt="Profile"
+                    className="profile-img"
+                  />
+                </button>
+
+                {menuOpen && (
+                  <div className="dropdown-menu">
+                    <button className="dropdown-item" onClick={() => { setMenuOpen(false); navigate('/profile'); }}>
+                      My Profile
+                    </button>
+                    <button className="dropdown-item" onClick={() => { setMenuOpen(false); navigate('/edit-profile'); }}>
+                      Edit Profile
+                    </button>
+                    <button className="dropdown-item" onClick={() => { setMenuOpen(false); navigate('/search-skills'); }}>
+                      Discover Skills
+                    </button>
+                    <button className="dropdown-item" onClick={() => { setMenuOpen(false); navigate('/chat'); }}>
+                      Chat
+                    </button>
+                    <button className="dropdown-item" onClick={() => { setMenuOpen(false); onLogout?.(); navigate('/'); }}>
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             </>
           ) : (
             <>

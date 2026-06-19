@@ -3,21 +3,29 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import profileIcon from "../assets/usericon.png";
+import ReviewCard from "./ReviewCard";
 
 const Profile = ({ onLogout }) => {
-  // 1. Updated State to include 'learning'
   const [user, setUser] = useState({
     username: "Loading...",
     email: "",
     skills: [],
-    learning: [], // New field
+    learning: [],
     bio: "",
+    department: "",
+    experience_level: "",
+    graduation_year: "",
+    timezone: "",
+    preferred_learning_format: [],
+    average_rating: 0,
+    total_reviews: 0,
     sessionsHosted: 0,
   });
-  // eslint-disable-next-line
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState(null); // { type: 'success'|'error', text }
   const navigate = useNavigate();
+
+  const currentUserId = localStorage.getItem("id") || "";
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -31,18 +39,44 @@ const Profile = ({ onLogout }) => {
         }
         const id = localStorage.getItem("id");
         // Use correct API URL
-        const response = await axios.get(`https://skill-exchange-platform-x98i.onrender.com/api/users/profile/${id}`, {
+        const response = await axios.get(`https://skill-exchange-platform-x98i.onrender.com/api/users/profile-full/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         const data = response.data || {};
+        const parseSkills = (value) => {
+          if (!value) return [];
+          if (Array.isArray(value)) {
+            return value.map((item) => (typeof item === 'string' ? { name: item } : item));
+          }
+          return value.split(',').map((s) => ({ name: s.trim() }));
+        };
+
+        const parseLearning = (value) => {
+          if (!value) return [];
+          if (Array.isArray(value)) {
+            return value.map((item) => (typeof item === 'string' ? { name: item } : item));
+          }
+          return value.split(',').map((s) => ({ name: s.trim() }));
+        };
+
         setUser({
           username: data.username || "Unknown",
           email: data.email || "",
-          // 2. Process both skills and learning arrays safely
-          skills: Array.isArray(data.skills) ? data.skills : (data.skills ? data.skills.split(",").map(s => s.trim()) : []),
-          learning: Array.isArray(data.learning) ? data.learning : (data.learning ? data.learning.split(",").map(s => s.trim()) : []),
+          skills: parseSkills(data.skills),
+          learning: parseLearning(data.learning),
           bio: data.bio || "",
+          department: data.department || "",
+          experience_level: data.experience_level || "",
+          graduation_year: data.graduation_year || "",
+          timezone: data.timezone || "",
+          preferred_learning_format: Array.isArray(data.preferred_learning_format)
+            ? data.preferred_learning_format
+            : data.preferred_learning_format
+            ? [data.preferred_learning_format]
+            : [],
+          average_rating: data.average_rating || 0,
+          total_reviews: data.total_reviews || 0,
           sessionsHosted: data.sessionsHosted || 0,
           avatar: data.avatar || null,
         });
@@ -63,6 +97,14 @@ const Profile = ({ onLogout }) => {
     onLogout && onLogout();
     navigate("/");
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen profile-page flex items-center justify-center p-6">
+        <div className="text-white text-xl">Loading profile...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen profile-page flex items-center justify-center p-6">
@@ -257,6 +299,29 @@ const Profile = ({ onLogout }) => {
         </div>
 
         <div className="right">
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: 16 }}>
+            <div className="stat">
+              <div className="val">{user.average_rating.toFixed(1)}</div>
+              <div className="label">Avg. Rating</div>
+            </div>
+            <div className="stat">
+              <div className="val">{user.total_reviews}</div>
+              <div className="label">Reviews</div>
+            </div>
+            {user.department && (
+              <div className="stat">
+                <div className="val">{user.department}</div>
+                <div className="label">Department</div>
+              </div>
+            )}
+            {user.experience_level && (
+              <div className="stat">
+                <div className="val">{user.experience_level}</div>
+                <div className="label">Level</div>
+              </div>
+            )}
+          </div>
+
           <div>
             <div className="section-title">About</div>
             <div className="bio">{user.bio || "No bio provided. Add a short description about yourself in Edit Profile."}</div>
@@ -269,7 +334,7 @@ const Profile = ({ onLogout }) => {
                 <div style={{ color: "rgba(255,250,240,0.7)" }}>No skills listed yet.</div>
               ) : (
                 user.skills.map((s, i) => (
-                  <div key={i} className="chip">{s}</div>
+                  <div key={i} className="chip">{typeof s === 'string' ? s : s.name || 'Unknown Skill'}</div>
                 ))
               )}
             </div>
@@ -291,7 +356,7 @@ const Profile = ({ onLogout }) => {
                 </div>
               ) : (
                 user.learning.map((s, i) => (
-                  <div key={i} className="chip-learning">{s}</div>
+                  <div key={i} className="chip-learning">{typeof s === 'string' ? s : s.name || 'Unknown Skill'}</div>
                 ))
               )}
             </div>
@@ -303,13 +368,20 @@ const Profile = ({ onLogout }) => {
               <button className="btn-primary" onClick={() => navigate("/edit-profile")}>
                 Edit Profile
               </button>
-              <button className="btn-ghost" onClick={() => navigate("/search-skills")}>
+              <button className="btn-primary" onClick={() => navigate("/profile-templates") }>
+                Choose a Template
+              </button>
+              <button className="btn-ghost" onClick={() => navigate("/search-skills") }>
                 Discover
               </button>
               <Link to="/connected-users" className="btn-ghost" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                 Messages
               </Link>
             </div>
+          </div>
+
+          <div style={{ marginTop: 24 }}>
+            <ReviewCard userId={currentUserId} currentUserId={currentUserId} />
           </div>
 
           {message && (

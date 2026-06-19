@@ -5,6 +5,7 @@ import Login from './components/Auth/Login';
 import Profile from './components/Profile';
 import Home from './components/Home';
 import EditProfile from './components/EditProfile';
+import ProfileTemplates from './components/ProfileTemplates';
 import SearchSkills from './components/SearchSkills';
 import PendingRequests from './components/PendingRequest';
 import ConnectedUsers from './components/ConnectedUsers';
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/profile" element={isLoggedIn ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />} />
         <Route path="/edit-profile" element={isLoggedIn ? <EditProfile /> : <Navigate to="/login" />} />
+        <Route path="/profile-templates" element={isLoggedIn ? <ProfileTemplates userId={currentUserId} /> : <Navigate to="/login" />} />
         <Route path="/search-skills" element={isLoggedIn ? <SearchSkills /> : <Navigate to="/login" />} />
         <Route path="/request" element={isLoggedIn ? <PendingRequests currentUserId={currentUserId} /> : <Navigate to="/login" />} />
         <Route path="/chat" element={<ConnectedUsers currentUserId={currentUserId} />} />

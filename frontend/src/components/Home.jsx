@@ -155,6 +155,12 @@ const Home = ({ isLoggedIn, onLogout }) => {
                 {isLoggedIn ? 'Find a Session' : 'Create Free Account'}
               </button>
 
+              {isLoggedIn && (
+                <button onClick={() => navigate('/profile-templates')} className="px-6 py-3 rounded-full btn-outline font-semibold hover:brightness-105 transition">
+                  Browse Templates
+                </button>
+              )}
+
               <Link to="/how-it-works" className="px-6 py-3 rounded-full btn-ghost">How it works</Link>
 
               {/* CHAT BUTTON ADDED */}
