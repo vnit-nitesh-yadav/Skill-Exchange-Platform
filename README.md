@@ -63,7 +63,7 @@ Copy code
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/omnalage/skill-exchange-platform.git
+git clone https://github.com/vnit-nitesh-yadav/Skill-Exchange-Platform
 cd skill-exchange-platform
 2️⃣ Install Dependencies
 Backend
