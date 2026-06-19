@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import API_URL from '../api';
 import axios from "axios";
 import Chat from "./Chat";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +13,7 @@ const ConnectedUsers = ({ currentUserId }) => {
     const fetchConnectedUsers = async () => {
       try {
         const response = await axios.get(
-          `https://skill-exchange-platform-x98i.onrender.com/api/connection/connected-users/${currentUserId}`
+          `${API_URL}/api/connection/connected-users/${currentUserId}`
         );
         // Assume response.data is an array of user objects
         setConnectedUsers(response.data || []);

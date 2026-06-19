@@ -1,5 +1,6 @@
 // AcceptRejectRequestButton.js
 import React, { useState } from "react";
+import API_URL from '../api';
 import axios from "axios";
 
 const AcceptRejectRequestButton = ({ senderId, receiverId, currentStatus = "pending", refreshList }) => {
@@ -13,7 +14,7 @@ const AcceptRejectRequestButton = ({ senderId, receiverId, currentStatus = "pend
     setError(null);
 
     try {
-      const response = await axios.post("https://skill-exchange-platform-x98i.onrender.com/api/connection/update-status", {
+      const response = await axios.post(`${API_URL}/api/connection/update-status`, {
         senderId,
         receiverId,
         status: newStatus,

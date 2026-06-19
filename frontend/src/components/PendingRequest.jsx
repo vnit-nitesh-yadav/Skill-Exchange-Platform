@@ -1,4 +1,5 @@
 import React, { useState, useEffect , useCallback} from "react";
+import API_URL from '../api';
 import axios from "axios";
 import AcceptRejectRequestButton from "./ReceiveRequest";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +14,7 @@ const PendingRequests = ({ currentUserId }) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://skill-exchange-platform-x98i.onrender.com/api/connection/pending-requests/${currentUserId}`
+        `${API_URL}/api/connection/pending-requests/${currentUserId}`
       );
       setRequests(response.data || []);
     } catch (error) {

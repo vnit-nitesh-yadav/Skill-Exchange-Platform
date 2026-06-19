@@ -1,13 +1,14 @@
 import axios from 'axios';
+import API_URL from '../api';
 
-const API_URL = 'https://skill-exchange-platform-x98i.onrender.com/api/auth';
+const AUTH_URL = `${API_URL}/api/auth`;
 
 export const register = async (userData) => {
-    return await axios.post(`${API_URL}/register`, userData);
+    return await axios.post(`${AUTH_URL}/register`, userData);
 };
 
 export const login = async (userData) => {
-    const response = await axios.post(`${API_URL}/login`, userData);
+    const response = await axios.post(`${AUTH_URL}/login`, userData);
     localStorage.setItem('token', response.data.token);
     return response;
 };

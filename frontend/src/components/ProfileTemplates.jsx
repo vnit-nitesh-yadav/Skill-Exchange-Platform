@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import API_URL from '../api';
 import axios from 'axios';
 import './ProfileTemplates.css';
 
@@ -156,7 +157,7 @@ function ProfileTemplates({ userId, onTemplateApply }) {
         : {};
 
       const response = await axios.put(
-        `https://skill-exchange-platform-x98i.onrender.com/api/users/profile/${userId}`,
+        `${API_URL}/api/users/profile/${userId}`,
         template.profile,
         config
       );

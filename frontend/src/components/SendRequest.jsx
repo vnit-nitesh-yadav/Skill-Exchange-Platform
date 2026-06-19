@@ -1,5 +1,6 @@
 // SendConnectRequestButton.js
 import React, { useState } from "react";
+import API_URL from '../api';
 import axios from "axios";
 
 const SendConnectRequestButton = ({ receiverId, onSuccess }) => {
@@ -20,7 +21,7 @@ const SendConnectRequestButton = ({ receiverId, onSuccess }) => {
     setMessage(null);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/connection/send-request", {
+      const response = await axios.post(`${API_URL}/api/connection/send-request`, {
         senderId,
         receiverId,
       });

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import API_URL from '../api';
 import axios from 'axios';
 import { FaStar, FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import './ReviewCard.css';
@@ -22,7 +23,7 @@ function ReviewCard({ userId, currentUserId }) {
   const fetchReviews = useCallback(async () => {
     try {
       const response = await axios.get(
-        `https://skill-exchange-platform-x98i.onrender.com/api/reviews/user/${userId}`
+        `${API_URL}/api/reviews/user/${userId}`
       );
       setReviews(response.data);
       setLoading(false);
@@ -56,7 +57,7 @@ function ReviewCard({ userId, currentUserId }) {
         : {};
 
       await axios.post(
-        'https://skill-exchange-platform-x98i.onrender.com/api/reviews',
+        `${API_URL}/api/reviews`,
         {
           reviewed_user_id: userId,
           reviewer_id: currentUserId,

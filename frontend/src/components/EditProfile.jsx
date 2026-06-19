@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import API_URL from '../api';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +21,7 @@ const EditProfile = () => {
           return;
         }
         const id = localStorage.getItem("id");
-        const response = await axios.get(`https://skill-exchange-platform-x98i.onrender.com/api/users/profile/${id}`, {
+        const response = await axios.get(`${API_URL}/api/users/profile/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -70,7 +71,7 @@ const EditProfile = () => {
         learning: user.learning.split(",").map((s) => s.trim()).filter(Boolean),
       };
 
-      const response = await axios.put(`https://skill-exchange-platform-x98i.onrender.com/api/users/profile/${id}`, payload, {
+      const response = await axios.put(`${API_URL}/api/users/profile/${id}`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_URL from '../api';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import profileIcon from '../assets/usericon.png';
@@ -14,11 +15,7 @@ const RecommendedMentors = () => {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const API_URL = window.location.hostname === 'localhost' 
-          ? `http://localhost:5000/api/recommendations/${currentUserId}` 
-          : `https://skill-exchange-platform-x98i.onrender.com/api/recommendations/${currentUserId}`;
-        
-        const res = await axios.get(API_URL);
+        const res = await axios.get(`${API_URL}/api/recommendations/${currentUserId}`);
         setRecommendations(res.data);
       } catch (err) {
         console.error("Failed to fetch recommendations", err);
@@ -38,12 +35,8 @@ const RecommendedMentors = () => {
     setRequestStatus(prev => ({ ...prev, [receiverId]: 'sending' }));
 
     try {
-      const API_BASE = window.location.hostname === 'localhost'
-        ? 'http://localhost:5000'
-        : 'https://skill-exchange-platform-x98i.onrender.com';
-
       // 2. Call the connection endpoint
-      await axios.post(`${API_BASE}/api/connection/send-request`, {
+      await axios.post(`${API_URL}/api/connection/send-request`, {
         senderId: currentUserId,
         receiverId,
       });

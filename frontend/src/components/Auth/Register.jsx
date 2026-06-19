@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_URL from '../../api';
 
 const Register = (props) => {
   const [username, setUsername] = useState("");
@@ -18,7 +19,7 @@ const Register = (props) => {
     setSuccess("");
 
     try {
-      const response = await axios.post("https://skill-exchange-platform-x98i.onrender.com/api/auth/register", {
+      const response = await axios.post(`${API_URL}/api/auth/register`, {
         username,
         email,
         password,

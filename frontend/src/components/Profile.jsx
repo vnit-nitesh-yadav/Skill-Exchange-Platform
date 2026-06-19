@@ -1,5 +1,6 @@
 // src/components/Profile.jsx
 import React, { useState, useEffect } from "react";
+import API_URL from '../api';
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import profileIcon from "../assets/usericon.png";
@@ -39,7 +40,7 @@ const Profile = ({ onLogout }) => {
         }
         const id = localStorage.getItem("id");
         // Use correct API URL
-        const response = await axios.get(`https://skill-exchange-platform-x98i.onrender.com/api/users/profile-full/${id}`, {
+        const response = await axios.get(`${API_URL}/api/users/profile-full/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
