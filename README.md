@@ -4,14 +4,14 @@ An interactive full-stack web application that enables users to **connect, teach
 
 ---
 
-## 🚀 Live Demo
+##  Live Demo
 
 Explore the deployed app :  
 ➡️ [skill-exchangeplatform.vercel.app](https://skill-exchangeplatform.vercel.app/)
 
 ---
 
-## 🧠 Project Overview
+##  Project Overview
 
 The Skill Exchange Platform connects learners and teachers in a flexible, community-driven way:
 
@@ -21,7 +21,7 @@ The Skill Exchange Platform connects learners and teachers in a flexible, commun
 
 ---
 
-## 📁 Features
+##  Features
 
 - **User Authentication**
 - **Skill Listing & Management**
@@ -32,7 +32,7 @@ The Skill Exchange Platform connects learners and teachers in a flexible, commun
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -45,7 +45,7 @@ The Skill Exchange Platform connects learners and teachers in a flexible, commun
 
 ---
 
-## 🧩 Project Structure
+##  Project Structure
 
 skill-exchange-platform/
 ├── backend/ # API server code
@@ -59,7 +59,7 @@ Copy code
 
 ---
 
-## 🔧 Installation & Setup
+##  Installation & Setup
 
 ### 1️⃣ Clone the Repository
 ```bash
@@ -91,7 +91,7 @@ Copy code
 npm run dev
 Make sure to configure any .env files (API keys, DB URLs) if required.
 
-🧪 Usage
+ Usage
 Visit http://localhost:3000 for the frontend.
 
 Sign up or log in as a user.
